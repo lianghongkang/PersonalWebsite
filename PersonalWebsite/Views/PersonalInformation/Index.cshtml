@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<style type="text/css">
+
+    .container {
+    margin:0;
+    }
+</style>
+
+<div id="app" class="container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>性别</th>
+                <th>婚否</th>
+                <th>电话号码</th>
+                <th>居住地址</th>
+                <th>籍贯</th>
+                <th>电子邮件</th>
+                <th>QQ</th>
+                <th>微信号</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item,index) in infos">
+                <td><input type="text" v-model="item.Id" style="width:20px" /></td>
+                <td> <input type="text" v-model="item.Name"  style="width:70px" /></td>
+                <td> <input type="text" v-model="item.Age" style="width:30px" /></td>
+                <td> <input type="text" v-model="item.Gender" /></td>
+                <td> <input type="text" v-model="item.Marriage" /></td>
+                <td> <input type="text" v-model="item.Tel" /></td>
+                <td><input type="text" v-model="item.ResidentialAddress" /></td>
+                <td><input type="text" v-model="item.NativePlace" /></td>
+                <td><input type="text" v-model="item.Email" /></td>
+                <td><input type="text" v-model="item.QQ" /></td>
+                <td><input type="text" v-model="item.Wechat" /></td>
+                <td>
+                    <div v-if="item.Id != ''">
+                        <a href="#" class="btn btn-success" v-on:click="updateInfo()">修改</a>
+                    </div>
+                    <div v-else>
+                        <a href="#" class="btn btn-primary" v-on:click="addInfo(item)">新增</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+@section scripts{
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                infos: []
+            },
+            mounted() {
+                this.getAllInfos();
+            },
+            methods: {
+                getAllInfos: function () {
+                    axios.get('@Url.Action("GetAllInfos", "PersonalInformation")')
+                        .then(res => {
+                            this.infos = [];
+                            for (var i = 0; i < res.data.length; i++) {
+                                this.infos.push(res.data[i]);
+                            }
+                            this.infos.push({
+                                Id:0, Name: "", Age: 0, Gender: "", Tel: "", Marriage: false, ResidentialAddress: "",
+                                NativePlace: "", Email: "", QQ: "", Wechat: ""
+                            });});
+                },
+                addInfo: function (item) {
+                    var url = '@Url.Action("Create", "PersonalInformation")';
+                    axios.post(url, item)
+                        .then(response => { alert("保存成功！"); })
+                        .catch(error => { alert("保存失败") });
+                },
+                updateInfo: function (contact) {
+                    var url = '@Url.Action("Edit", "PersonalInformation")';
+                    axios.post(url, contact)
+                        .then(response => { alert("保存成功！"); })
+                        .catch(error => { alert("保存失败") });
+                }
+            }
+        })
+    </script>
+}
+
+

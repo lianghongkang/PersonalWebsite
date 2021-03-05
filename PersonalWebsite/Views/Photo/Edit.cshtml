@@ -1,0 +1,35 @@
+﻿
+@using PersonalWebsite.Models
+@model Photo
+
+@using (Html.BeginForm("Edit", "Photo", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        <label for="location" class="col-md-2 control-label">拍摄地点</label>
+        <div class="col-md-10">
+            <input type="text" class="form-control" id="location" placeholder="请输入拍摄地点" name="location" value="@Model.Location" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="imageUrl" class="col-md-2 control-label">上传路径</label>
+        <div class="col-md-10">
+            <input type="file" id="imageUrl" name="imageUrl" value="@Model.ImageUrl" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="title" class="col-md-2 control-label">标题</label>
+        <div class="col-md-10">
+            <input type="text" class="form-control" id="title" name="title" value="@Model.Title" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2">
+            
+        </div>
+        <div class="col-md-10">
+            <input type="submit" class="btn btn-success " value="保存" style="text-align:center;float:left;" />
+        </div>
+    </div>
+    
+}
+
